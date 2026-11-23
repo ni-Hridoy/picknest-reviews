@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://picknest-reviews.vercel.app/sitemap.xml
