@@ -75,3 +75,9 @@ th{background:var(--soft)}
 .post-hero figcaption{font-size:.85rem;color:var(--muted);margin-top:6px;text-align:center}
 .prod-cell{display:flex;align-items:center;gap:10px}
 .prod-thumb{width:64px;height:64px;object-fit:contain;background:#fff;border:1px solid var(--border);border-radius:8px;flex:none;padding:3px}
+
+/* Related posts + sources (added 2026-11-24) */
+.related{margin-top:2.2rem}
+.sources{margin-top:2rem}
+.sources ul{padding-left:20px}
+.sources li{margin-bottom:6px}
