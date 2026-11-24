@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel — PickNest Reviews</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/admin.css">
+<script>try{ if(!sessionStorage.getItem("pn_admin")){ location.replace("/login"); } }catch(e){ location.replace("/login"); }</script>
+</head>
+<body>
+<header class="admin-topbar">
+  <div class="brand">PickNest <span>Admin</span></div>
+  <div class="who">Signed in as <strong id="who-email">…</strong> (<span id="who-role">…</span>) · <a href="/" style="color:#5eead4">View site</a> · <a href="#" id="logout-link" style="color:#fca5a5">Log out</a></div>
+</header>
+
+<div class="admin-layout">
+  <nav class="admin-sidebar" aria-label="Admin">
+    <button data-tab="dashboard" class="active">📊 Dashboard</button>
+    <button data-tab="posts">📝 Posts</button>
+    <button data-tab="add" id="nav-add">➕ Add Post</button>
+    <button data-tab="admins" id="nav-admins">👥 Admins</button>
+    <button data-tab="settings" id="nav-settings">⚙️ Settings</button>
+    <p class="side-note">Static-site panel: changes are published to the GitHub repo <strong>ni-Hridoy/picknest-reviews</strong> and go live on Vercel within about a minute.</p>
+  </nav>
+
+  <main class="admin-main">
+    <div id="token-banner" class="token-banner off"></div>
+
+    <!-- ============ DASHBOARD ============ -->
+    <section class="tab-panel active" id="tab-dashboard">
+      <h1>Dashboard</h1>
+      <p class="small">Overview of the site content and this panel.</p>
+      <div class="stat-grid">
+        <div class="stat"><div class="num" id="stat-total">–</div><div class="lbl">Total posts</div></div>
+        <div class="stat"><div class="num" id="stat-kitchen">–</div><div class="lbl">Kitchen Appliances</div></div>
+        <div class="stat"><div class="num" id="stat-sleep">–</div><div class="lbl">Sleep &amp; Mattresses</div></div>
+        <div class="stat"><div class="num" id="stat-comfort">–</div><div class="lbl">Home Comfort</div></div>
+        <div class="stat"><div class="num" id="stat-fitness">–</div><div class="lbl">Home Fitness</div></div>
+        <div class="stat"><div class="num" id="stat-admins">–</div><div class="lbl">Admins</div></div>
+      </div>
+      <h2>Latest posts</h2>
+      <div class="tbl-wrap"><table class="admin-tbl"><thead><tr><th></th><th>Title</th><th>Category</th><th>Date</th></tr></thead><tbody id="dash-latest"></tbody></table></div>
+      <div class="notice notice-info"><strong>How publishing works:</strong> this site has no server. The panel reads <code>posts.json</code> / <code>admins.json</code> from the site and publishes edits through the GitHub API using the token you save under <strong>Settings</strong>. Without a token the panel is in <strong>draft mode</strong> — you can browse everything, but Add / Edit / Delete cannot publish.</div>
+    </section>
+
+    <!-- ============ POSTS ============ -->
+    <section class="tab-panel" id="tab-posts">
+      <h1>Posts</h1>
+      <p class="small">All posts from <code>posts.json</code>. Edit and Delete are permission-gated and need a GitHub token (Settings) to publish.</p>
+      <div class="tbl-wrap"><table class="admin-tbl"><thead><tr><th></th><th>Title</th><th>Category</th><th>Date</th><th>Actions</th></tr></thead><tbody id="posts-tbody"></tbody></table></div>
+
+      <!-- Edit view -->
+      <div id="edit-wrap" class="hidden" style="margin-top:26px">
+        <h2>Edit post — <span id="edit-slug-label"></span></h2>
+        <form id="edit-form" class="form-card">
+          <div class="field"><label for="edit-title">Title</label><input type="text" id="edit-title" required></div>
+          <div class="field"><label for="edit-category">Category</label>
+            <select id="edit-category">
+              <option>Kitchen Appliances</option><option>Sleep &amp; Mattresses</option><option>Home Comfort</option><option>Home Fitness</option>
+            </select></div>
+          <div class="field"><label for="edit-excerpt">Excerpt / meta description</label><textarea id="edit-excerpt" rows="3" required></textarea></div>
+          <div class="field"><label>Featured image</label>
+            <div class="img-row"><input type="url" id="edit-image" placeholder="https://…"><input type="file" id="edit-image-file" accept="image/*"></div>
+            <span class="hint">Paste an image URL, or choose a file to upload it to the repo's <code>images/</code> folder (needs a token). The image is also used for og:image and the article schema.</span>
+            <img id="edit-image-preview" class="img-preview" alt="Featured image preview">
+          </div>
+          <button class="btn" type="submit" id="edit-save">Save &amp; Publish</button>
+          <button class="btn btn-ghost" type="button" id="edit-cancel">Cancel</button>
+          <p class="form-status" id="edit-status"></p>
+        </form>
+        <div class="form-card">
+          <h3>Advanced: edit raw HTML</h3>
+          <p class="small">The full <code id="raw-slug-label"></code> file. Saving replaces the whole file — keep the SEO head, schema and template structure intact.</p>
+          <div class="field"><textarea id="edit-raw" class="mono" rows="18" spellcheck="false"></textarea></div>
+          <button class="btn btn-amber" id="raw-load" type="button">Load current HTML</button>
+          <button class="btn" id="raw-save" type="button">Save raw HTML &amp; Publish</button>
+          <p class="form-status" id="raw-status"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ADD POST ============ -->
+    <section class="tab-panel" id="tab-add">
+      <h1>Add Post</h1>
+      <p class="small">Builds a full review post from the PickNest template (Article + FAQ schema, breadcrumbs, Sources, Related Reviews — never any rating schema), then publishes the post file, <code>posts.json</code>, the homepage cards, the archive, the category hub, <code>sitemap.xml</code> and <code>feed.xml</code>.</p>
+      <form id="add-form">
+        <div class="form-card">
+          <h3>Basics</h3>
+          <div class="field"><label for="add-title">Title <span class="hint">— ~55 chars, main keyword first, e.g. “Best Espresso Machine Under $500 (2026)”</span></label><input type="text" id="add-title" required></div>
+          <div class="field"><label for="add-slug">Slug</label><input type="text" id="add-slug" required pattern="[a-z0-9-]+"><span class="hint">Auto-generated from the title; editable. The post URL becomes /reviews/&lt;slug&gt;.</span></div>
+          <div class="field"><label for="add-category">Category</label>
+            <select id="add-category"><option>Kitchen Appliances</option><option>Sleep &amp; Mattresses</option><option>Home Comfort</option><option>Home Fitness</option></select></div>
+          <div class="field"><label for="add-excerpt">Meta description / excerpt <span class="hint">— ~155 chars</span></label><textarea id="add-excerpt" rows="3" required></textarea></div>
+          <div class="field"><label>Featured image <span class="hint">— the top pick's photo; used as hero, og:image and schema image</span></label>
+            <div class="img-row"><input type="url" id="add-image" placeholder="https://…"><input type="file" id="add-image-file" accept="image/*"></div>
+            <img id="add-image-preview" class="img-preview" alt="Featured image preview"></div>
+          <div class="field"><label for="add-cta-terms">Main CTA — Amazon search terms <span class="hint">— builds https://www.amazon.com/s?k=&lt;terms&gt;&amp;tag=picknest053-20</span></label><input type="text" id="add-cta-terms" placeholder="e.g. breville barista express"></div>
+          <div class="field"><label for="add-intro">Intro paragraphs <span class="hint">— one paragraph per line</span></label><textarea id="add-intro" rows="5"></textarea></div>
+          <div class="field"><label for="add-verdict">Verdict <span class="hint">— used for the Quick Verdict box and the Final Verdict section</span></label><textarea id="add-verdict" rows="3"></textarea></div>
+        </div>
+
+        <div class="form-card">
+          <h3>Picks (up to 5) — the first pick is the top pick</h3>
+          <div id="picks-wrap"></div>
+          <button class="btn btn-ghost btn-small" type="button" id="pick-add">+ Add a pick</button>
+        </div>
+
+        <div class="form-card">
+          <h3>FAQ</h3>
+          <div id="faq-wrap"></div>
+          <button class="btn btn-ghost btn-small" type="button" id="faq-add">+ Add a question</button>
+        </div>
+
+        <div class="form-card">
+          <h3>Sources &amp; Further Reading</h3>
+          <div id="sources-wrap"></div>
+          <button class="btn btn-ghost btn-small" type="button" id="source-add">+ Add a source</button>
+        </div>
+
+        <button class="btn" type="submit" id="add-publish">Publish Post</button>
+        <p class="form-status" id="add-status"></p>
+      </form>
+    </section>
+
+    <!-- ============ ADMINS ============ -->
+    <section class="tab-panel" id="tab-admins">
+      <h1>Admins</h1>
+      <p class="small">Admins are stored in <code>admins.json</code> (published via GitHub when a token is set; otherwise kept in this browser only). Passwords are stored only as SHA-256 hashes. The super admin always has every permission and cannot be deleted or demoted.</p>
+      <div class="tbl-wrap"><table class="admin-tbl"><thead><tr><th>Email</th><th>Role</th><th>Permissions</th><th>Actions</th></tr></thead><tbody id="admins-tbody"></tbody></table></div>
+
+      <form id="admin-form" class="form-card" style="margin-top:22px">
+        <h3 id="admin-form-title">Add an admin</h3>
+        <input type="hidden" id="admin-editing" value="">
+        <div class="field"><label for="admin-email">Email</label><input type="email" id="admin-email" required></div>
+        <div class="field"><label for="admin-password">Password <span class="hint" id="admin-password-hint">— required for a new admin; stored only as a SHA-256 hash</span></label><input type="password" id="admin-password" autocomplete="new-password"></div>
+        <div class="field"><label>Permissions checklist</label>
+          <div class="checks" id="admin-perms"></div>
+        </div>
+        <button class="btn" type="submit" id="admin-save">Save admin</button>
+        <button class="btn btn-ghost hidden" type="button" id="admin-cancel-edit">Cancel edit</button>
+        <p class="form-status" id="admin-status"></p>
+      </form>
+    </section>
+
+    <!-- ============ SETTINGS ============ -->
+    <section class="tab-panel" id="tab-settings">
+      <h1>Settings</h1>
+      <div class="form-card">
+        <h3>GitHub publishing token</h3>
+        <p>Publishing (Add / Edit / Delete posts, syncing admins) writes to the GitHub repo through the Contents API. Paste a fine-grained personal access token below. It is saved <strong>only</strong> in this browser's local storage (<code>pn_gh_token</code>) and is sent only to api.github.com.</p>
+        <div class="field"><label for="gh-token">Personal access token</label><input type="password" id="gh-token" placeholder="github_pat_…" autocomplete="off"></div>
+        <button class="btn" id="token-save" type="button">Save token</button>
+        <button class="btn btn-ghost" id="token-clear" type="button">Remove token</button>
+        <p class="form-status" id="token-status"></p>
+        <h3 style="margin-top:20px">How to create the token</h3>
+        <ol class="steps">
+          <li>Go to <strong>github.com</strong> and sign in as the repo owner.</li>
+          <li>Open <strong>Settings → Developer settings → Personal access tokens → Fine-grained tokens</strong>.</li>
+          <li>Click <strong>Generate new token</strong> and give it a name (e.g. “PickNest Admin Panel”).</li>
+          <li>Under <strong>Repository access</strong>, choose <strong>Only select repositories</strong> → <strong>ni-Hridoy/picknest-reviews</strong>.</li>
+          <li>Under <strong>Permissions → Repository permissions</strong>, set <strong>Contents: Read and write</strong>.</li>
+          <li>Click <strong>Generate token</strong>, copy it, and paste it above.</li>
+        </ol>
+      </div>
+      <div class="form-card">
+        <h3>Draft mode</h3>
+        <p><strong>Without a token, the panel is in draft mode:</strong> Add / Edit / Delete are disabled for publishing and nothing is written anywhere. You can still browse posts and admins. Add the token above to enable publishing; every publish is a normal Git commit on <code>main</code>, so Vercel redeploys automatically and the full history stays in GitHub.</p>
+        <p class="small">Honest note: because this is a static site, the login check runs in the browser and the JSON files are publicly readable. Treat the panel as a convenience tool — the GitHub token is what actually controls who can change the site.</p>
+      </div>
+      <div class="form-card">
+        <h3>Session</h3>
+        <p class="small" id="session-info"></p>
+        <button class="btn btn-ghost" id="reload-data" type="button">Reload posts &amp; admins data</button>
+        <span class="form-status" id="reload-status"></span>
+      </div>
+    </section>
+  </main>
+</div>
+<script src="/admin.js" defer></script>
+</body>
+</html>
