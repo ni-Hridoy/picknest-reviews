@@ -4,7 +4,7 @@
     <title>PickNest Reviews</title>
     <link>https://picknest-reviews.vercel.app/</link>
     <atom:link href="https://picknest-reviews.vercel.app/feed.xml" rel="self" type="application/rss+xml"/>
-    <description>Honest product reviews and buying guides for tech, home, fitness and beauty.</description>
+    <description>Honest, research-based reviews and buying guides for premium home products: kitchen appliances, mattresses, home comfort and home fitness.</description>
     <language>en-us</language>
     <lastBuildDate>Tue, 24 Nov 2026 00:00:00 +0000</lastBuildDate>
     <item>
@@ -166,14 +166,6 @@
       <description>Full-body cardio in a small footprint. We compared air, magnetic and connected rowers to find the best rowing machine for your home.</description>
       <pubDate>Tue, 24 Nov 2026 00:00:00 +0000</pubDate>
       <category>Home Fitness</category>
-    </item>
-    <item>
-      <title>Best Wireless Earbuds Under $50 (2026) — Tested &amp; Compared</title>
-      <link>https://picknest-reviews.vercel.app/reviews/best-wireless-earbuds-under-50</link>
-      <guid isPermaLink="true">https://picknest-reviews.vercel.app/reviews/best-wireless-earbuds-under-50</guid>
-      <description>We compared battery life, sound, comfort and call quality to find the best wireless earbuds under $50 you can buy right now.</description>
-      <pubDate>Tue, 24 Nov 2026 00:00:00 +0000</pubDate>
-      <category>Tech</category>
     </item>
   </channel>
 </rss>
