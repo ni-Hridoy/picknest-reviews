@@ -61,3 +61,17 @@ th{background:var(--soft)}
 /* Footer */
 .site-footer{background:#111827;color:#d1d5db;padding:32px 0;margin-top:20px}
 .site-footer a{color:#5eead4}.footer-inner p{margin-bottom:.5rem}
+
+/* Logo mark + images (added 2026-11-24) */
+.logo{display:inline-flex;align-items:center;gap:9px}
+.logo:hover{text-decoration:none}
+.logo-mark{flex:none;display:block}
+.logo-text{font-size:1.3rem;font-weight:800;color:var(--ink)}
+.logo-text span{color:var(--teal)}
+.card-media{display:block;margin:-20px -20px 14px;border-radius:var(--radius) var(--radius) 0 0;overflow:hidden;background:var(--soft)}
+.card-media img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block}
+.post-hero{margin:20px 0}
+.post-hero img{width:100%;aspect-ratio:16/9;object-fit:contain;background:var(--soft);border:1px solid var(--border);border-radius:var(--radius);display:block;padding:12px}
+.post-hero figcaption{font-size:.85rem;color:var(--muted);margin-top:6px;text-align:center}
+.prod-cell{display:flex;align-items:center;gap:10px}
+.prod-thumb{width:64px;height:64px;object-fit:contain;background:#fff;border:1px solid var(--border);border-radius:8px;flex:none;padding:3px}
