@@ -1,4 +1,47 @@
+# PickNest Reviews — all search engines and AI crawlers are welcome.
+# Explicit allows below mirror the wildcard rule and document intent:
+# this site WANTS to be indexed by Google/Bing and cited by AI search
+# (Google AI Overviews, ChatGPT, Perplexity, Copilot, Gemini, Claude).
+
 User-agent: *
+Allow: /
+
+# Search crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# AI search & assistant crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
 Allow: /
 
 Sitemap: https://picknest-reviews.vercel.app/sitemap.xml

@@ -1,0 +1,37 @@
+# PickNest Reviews
+
+> Independent, research-based reviews and buying guides for premium home products — kitchen appliances, mattresses and sleep, home comfort (robot vacuums, air purifiers), and home fitness equipment. Every guide compares real products on verified manufacturer specs, cites its sources, and carries no paid placements or star ratings.
+
+## Categories
+
+- [All Reviews](https://picknest-reviews.vercel.app/reviews): the complete archive of PickNest buying guides
+- [Kitchen Appliances](https://picknest-reviews.vercel.app/categories/kitchen-appliances): espresso machines, stand mixers, blenders, air fryers and more
+- [Sleep & Mattresses](https://picknest-reviews.vercel.app/categories/sleep-mattresses): mattresses, adjustable bed frames and pillows
+- [Home Comfort](https://picknest-reviews.vercel.app/categories/home-comfort): robot vacuums, air purifiers, humidifiers and dehumidifiers
+- [Home Fitness](https://picknest-reviews.vercel.app/categories/home-fitness): treadmills, rowing machines, dumbbells and home gym gear
+
+## Top Reviews
+
+- [Best Espresso Machine Under $500](https://picknest-reviews.vercel.app/reviews/best-espresso-machine-under-500)
+- [Best Stand Mixer for Bread](https://picknest-reviews.vercel.app/reviews/best-stand-mixer-for-bread)
+- [Best Blender for Smoothies](https://picknest-reviews.vercel.app/reviews/best-blender-for-smoothies)
+- [Best XL Air Fryer for Family](https://picknest-reviews.vercel.app/reviews/best-xl-air-fryer-for-family)
+- [Best Mattress in a Box Under $1000](https://picknest-reviews.vercel.app/reviews/best-mattress-in-a-box-under-1000)
+- [Best Mattress for Side Sleepers](https://picknest-reviews.vercel.app/reviews/best-mattress-for-side-sleepers)
+- [Best Mattress for Back Pain](https://picknest-reviews.vercel.app/reviews/best-mattress-for-back-pain)
+- [Best Adjustable Bed Frame](https://picknest-reviews.vercel.app/reviews/best-adjustable-bed-frame)
+- [Best Robot Vacuum for Pet Hair](https://picknest-reviews.vercel.app/reviews/best-robot-vacuum-for-pet-hair)
+- [Best Robot Vacuum and Mop Combo](https://picknest-reviews.vercel.app/reviews/best-robot-vacuum-mop-combo)
+- [Best Air Purifier for Large Rooms](https://picknest-reviews.vercel.app/reviews/best-air-purifier-for-large-rooms)
+- [Best Air Purifier for Allergies](https://picknest-reviews.vercel.app/reviews/best-air-purifier-for-allergies)
+- [Best Treadmill for Home Under $1000](https://picknest-reviews.vercel.app/reviews/best-treadmill-for-home-under-1000)
+- [Best Rowing Machine for Home](https://picknest-reviews.vercel.app/reviews/best-rowing-machine-for-home)
+- [Best Adjustable Dumbbells](https://picknest-reviews.vercel.app/reviews/best-adjustable-dumbbells)
+
+## About & Trust
+
+- [About PickNest Reviews](https://picknest-reviews.vercel.app/about): who we are and how we review
+- [Editorial Policy](https://picknest-reviews.vercel.app/editorial-policy): how products are researched, compared and selected
+- [Corrections Policy](https://picknest-reviews.vercel.app/corrections-policy): how errors are reported and fixed
+- [Affiliate Disclosure](https://picknest-reviews.vercel.app/disclosure): how the site earns money and stays independent
+- [Contact](https://picknest-reviews.vercel.app/contact)
