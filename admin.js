@@ -6,7 +6,7 @@
    is disabled. Login state lives in sessionStorage pn_admin (set by /login). */
 "use strict";
 
-var SITE = "https://picknest-reviews.vercel.app";
+var SITE = "https://picknest.xyz";
 var GH = { owner: "ni-Hridoy", repo: "picknest-reviews", branch: "main" };
 var AMAZON_TAG = "picknest053-20";
 var PERMS = ["create_posts", "edit_posts", "delete_posts", "manage_admins", "site_settings"];
