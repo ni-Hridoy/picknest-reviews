@@ -2,94 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Login — PickNest Reviews</title>
 <meta name="robots" content="noindex, nofollow">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="stylesheet" href="/admin.css">
+<title>PickNest Reviews</title>
+<meta http-equiv="refresh" content="0; url=/">
 </head>
-<body class="login-body">
-<main class="login-card">
-  <a class="logo" href="/" style="justify-content:center"><svg class="logo-mark" width="40" height="40" viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect width="48" height="48" rx="11" fill="#0f766e"/><path d="M17 24.5 22.5 30 32 18.5" stroke="#ffffff" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 31c3.2 5.4 8.2 8 14 8s10.8-2.6 14-8" stroke="#ffffff" stroke-width="3.4" stroke-linecap="round"/><path d="M14.5 35.5c2.6 2.9 5.9 4.3 9.5 4.3s6.9-1.4 9.5-4.3" stroke="#5eead4" stroke-width="3" stroke-linecap="round"/></svg></a>
-  <h1>PickNest Admin</h1>
-  <p class="login-sub">Sign in to manage posts, admins and publishing.</p>
-  <form id="login-form" autocomplete="off">
-    <label for="email">Email address</label>
-    <input id="email" type="email" required placeholder="you@example.com" autocomplete="username">
-    <label for="password">Password</label>
-    <input id="password" type="password" required placeholder="Your password" autocomplete="current-password">
-    <button class="btn btn-block" type="submit" id="login-btn">Sign In</button>
-    <p class="form-error" id="login-error" role="alert"></p>
-  </form>
-  <div class="notice notice-warn">
-    <strong>How this works:</strong> PickNest is a static site with no server, so this login is a
-    convenience gate that runs entirely in your browser — it is <em>not</em> bank-grade security.
-    The real protection is your GitHub token: publishing changes only happens through the
-    GitHub API with a token that never leaves your browser's local storage.
-  </div>
-  <p class="small center"><a href="/">← Back to PickNest Reviews</a></p>
-</main>
-<script>
-(function(){
-  "use strict";
-  var PERMS = ["create_posts","edit_posts","delete_posts","manage_admins","site_settings"];
-  var FALLBACK_ADMINS = [{"email":"nazmul.i.hridoy@gmail.com","role":"super","passwordHash":"49a5fdbfec28dc8b6a3331bc80e7d8f219c3d080e4040f7a55df059311480a6e","permissions":{"create_posts":true,"edit_posts":true,"delete_posts":true,"manage_admins":true,"site_settings":true}}];
-
-  // Already signed in? Go straight to the panel.
-  try { if (sessionStorage.getItem("pn_admin")) { location.replace("/admin"); return; } } catch(e){}
-
-  function sha256Hex(text){
-    return crypto.subtle.digest("SHA-256", new TextEncoder().encode(text)).then(function(buf){
-      return Array.prototype.map.call(new Uint8Array(buf), function(b){ return ("0"+b.toString(16)).slice(-2); }).join("");
-    });
-  }
-  function normalize(a){
-    var perms = {};
-    PERMS.forEach(function(p){ perms[p] = a.role === "super" ? true : !!(a.permissions && a.permissions[p]); });
-    return { email: String(a.email||"").toLowerCase(), role: a.role || "admin", passwordHash: a.passwordHash || "", permissions: perms };
-  }
-  function loadAdmins(){
-    var remote = fetch("/admins.json", {cache:"no-store"}).then(function(r){ if(!r.ok) throw new Error("http "+r.status); return r.json(); })
-      .then(function(j){ return (j.admins||[]).map(normalize); })
-      .catch(function(){ return FALLBACK_ADMINS.map(normalize); });
-    return remote.then(function(list){
-      var byEmail = {};
-      list.forEach(function(a){ byEmail[a.email] = a; });
-      try {
-        (JSON.parse(localStorage.getItem("pn_admins_local") || "[]")).forEach(function(a){
-          var n = normalize(a); byEmail[n.email] = n; // local additions/overrides win
-        });
-      } catch(e){}
-      return Object.keys(byEmail).map(function(k){ return byEmail[k]; });
-    });
-  }
-
-  var form = document.getElementById("login-form");
-  var err = document.getElementById("login-error");
-  var btn = document.getElementById("login-btn");
-  form.addEventListener("submit", function(ev){
-    ev.preventDefault();
-    err.textContent = "";
-    btn.disabled = true; btn.textContent = "Checking…";
-    var email = document.getElementById("email").value.trim().toLowerCase();
-    var password = document.getElementById("password").value;
-    Promise.all([loadAdmins(), sha256Hex(password)]).then(function(res){
-      var admins = res[0], hash = res[1];
-      var match = null;
-      admins.forEach(function(a){ if (a.email === email && a.passwordHash === hash) match = a; });
-      if (!match) {
-        err.textContent = "Invalid email or password. Please try again.";
-        btn.disabled = false; btn.textContent = "Sign In";
-        return;
-      }
-      sessionStorage.setItem("pn_admin", JSON.stringify({ email: match.email, role: match.role, permissions: match.permissions, loginAt: Date.now() }));
-      location.replace("/admin");
-    }).catch(function(){
-      err.textContent = "Something went wrong while signing in. Please try again.";
-      btn.disabled = false; btn.textContent = "Sign In";
-    });
-  });
-})();
-</script>
+<body>
+<p>This page has been removed. <a href="/">Go to PickNest Reviews home</a>.</p>
 </body>
 </html>
